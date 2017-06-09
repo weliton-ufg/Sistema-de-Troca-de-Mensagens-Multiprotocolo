@@ -24,3 +24,7 @@ A nomenclatura das Changelogs ficaram definidas como *número.release.build*.
 
 * Arquivos iniciais do Projeto 3
 * Inicio da Documentação
+
+[***Version 1.0.1***]()
+
+* Atualização da Documentação e Diagramas
