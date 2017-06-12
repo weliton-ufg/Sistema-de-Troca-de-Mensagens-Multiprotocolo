@@ -11,7 +11,6 @@
 * **Gilmar Bernades** - Desenvolvedor :computer:
 
 * **Yan Rocha** - Documentador :writing_hand:
-* **Gerson Rosolim** - Documentador :writing_hand:
 
 # Documentação na Wiki
 Consulte nossa Documentação na [Wiki](https://gitlab.com/ad-si-2017-1/p3-g4/wikis/home) !
@@ -25,6 +24,7 @@ A nomenclatura das Changelogs ficaram definidas como *número.release.build*.
 * Arquivos iniciais do Projeto 3
 * Inicio da Documentação
 
-[***Version 1.0.1***]()
+[***Version 1.0.1***](https://gitlab.com/ad-si-2017-1/p3-g4/tags/version_v1.0.1)
 
-* Atualização da Documentação e Diagramas
+* Inclusão de novas páginas na Wiki.
+* Inclusao do Diagrama de forma detalhada e resumida.
