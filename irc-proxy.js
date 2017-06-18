@@ -65,13 +65,14 @@ function inicializar() {
 			if (msg.msg == "/motd") {
 				irc_client.send("motd");
 			}
-
+			if (msg.msg == "/quit") {
+				irc_client.send("quit");
+				irc_client.disconnect();
+				enviarParaCliente(irc_client.id, '/quitOk');
+				delete proxies[irc_client.id];
+				delete irc_client;
+			}
 		}
-
-		console.log(msg);
-		irc_client.say(msg.canal, msg.msg);
-
-		console.log(msg);
 		irc_client.say(msg.canal, msg.msg);
 	});
 }
