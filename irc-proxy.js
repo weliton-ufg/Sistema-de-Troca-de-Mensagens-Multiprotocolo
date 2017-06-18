@@ -55,12 +55,29 @@ function inicializar() {
 			});
 		});
 
+		irc_client.addListener('registered', function (message) {
+			enviarParaCliente(id, {
+				"timestamp": Date.now(),
+				"nick": nick,
+				"msg": message
+			});
+		});
+		
+		irc_client.addListener('names', function (message) {
+			enviarParaCliente(id, {
+				"timestamp": Date.now(),
+				"nick": nick,
+				"msg": message
+			});
+		});
+
+
 
 		proxies[id] = irc_client;
 	});
 
 	receberDoCliente("gravar_mensagem", function (msg) {
-		
+
 		if (msg.msg.charAt(0) == '/') {
 			if (msg.msg == "/motd") {
 				irc_client.send("motd");
