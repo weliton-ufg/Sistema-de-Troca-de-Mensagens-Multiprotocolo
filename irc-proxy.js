@@ -60,6 +60,17 @@ function inicializar() {
 	});
 
 	receberDoCliente("gravar_mensagem", function (msg) {
+		
+		if (msg.msg.charAt(0) == '/') {
+			if (msg.msg == "/motd") {
+				irc_client.send("motd");
+			}
+
+		}
+
+		console.log(msg);
+		irc_client.say(msg.canal, msg.msg);
+
 		console.log(msg);
 		irc_client.say(msg.canal, msg.msg);
 	});
