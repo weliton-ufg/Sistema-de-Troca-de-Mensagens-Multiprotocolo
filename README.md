@@ -28,3 +28,8 @@ A nomenclatura das Changelogs ficaram definidas como *número.release.build*.
 
 * Inclusão de novas páginas na Wiki.
 * Inclusao do Diagrama de forma detalhada e resumida.
+
+[***Version 1.1.0***](https://gitlab.com/ad-si-2017-1/p3-g4/tags/version_v1.1.0)
+
+* Modificação e Inclusão em ***app.js*** e ***irc-proxy***.
+* Atualização da Documentação.
