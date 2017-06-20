@@ -20,7 +20,7 @@ var amqp_ch;
 amqp.connect('amqp://localhost', function(err, conn) {
 
   conn.createChannel(function(err, ch) {
-
+    console.log("conn: "+conn);
     amqp_conn = conn;
     amqp_ch = ch;
   });

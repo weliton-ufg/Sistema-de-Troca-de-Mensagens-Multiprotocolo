@@ -10,6 +10,8 @@ var irc_client;
 // Conexão com o servidor AMQP
 amqp.connect('amqp://localhost', function (err, conn) {
 	conn.createChannel(function (err, ch) {
+		console.log("conn2 " + conn);
+
 		amqp_conn = conn;
 		amqp_ch = ch;
 
@@ -43,11 +45,13 @@ function inicializar() {
 			});
 		});
 
+
 		irc_client.addListener('error', function (message) {
 			console.log('error: ', message);
 		});
 
 		irc_client.addListener('motd', function (message) {
+			console.log("addListener motd " + message);
 			enviarParaCliente(id, {
 				"timestamp": Date.now(),
 				"nick": nick,
@@ -62,15 +66,21 @@ function inicializar() {
 				"msg": message
 			});
 		});
-		
+
 		irc_client.addListener('names', function (message) {
 			enviarParaCliente(id, {
 				"timestamp": Date.now(),
-				"nick": nick,
-				"msg": message
+				"msg": JSON.stringify(nicks)
 			});
 		});
 
+		irc_client.addListener('join', function (channel, nick, message) {
+			console.log("addListener join :");
+			enviarParaCliente(id, {
+				"timestamp": Date.now(),
+				"nick": nick + " se juntou ao Canal " + channel
+			});
+		});
 
 
 		proxies[id] = irc_client;
@@ -80,6 +90,7 @@ function inicializar() {
 
 		if (msg.msg.charAt(0) == '/') {
 			if (msg.msg == "/motd") {
+				console.log("teste motd");
 				irc_client.send("motd");
 			}
 			if (msg.msg == "/quit") {
@@ -89,8 +100,18 @@ function inicializar() {
 				delete proxies[irc_client.id];
 				delete irc_client;
 			}
+			if (msg.msg == "/names") {
+				irc_client.send("names");
+				irc_client.disconnect();
+			}
+			if (msg.msg == "/join") {
+				irc_client.send("join");
+				irc_client.disconnect();
+			}
+		} else {
+			irc_client.say(msg.canal, msg.msg);
 		}
-		irc_client.say(msg.canal, msg.msg);
+
 	});
 }
 
