@@ -144,7 +144,3 @@ function enviarParaCliente(id, msg) {
 	amqp_ch.sendToQueue("user_" + id, msg);
 	console.log(" [irc] Sent %s", msg);
 }
-
-
-
-

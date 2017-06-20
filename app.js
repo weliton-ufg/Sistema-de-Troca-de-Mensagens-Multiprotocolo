@@ -27,31 +27,31 @@ amqp.connect('amqp://localhost', function(err, conn) {
 });
 
 
-function enviarParaServidor (comando, msg) {
+function enviarParaServidor(comando, msg) {
 
   msg = new Buffer(JSON.stringify(msg));
 
-  amqp_ch.assertQueue(comando, {durable: false});
+  amqp_ch.assertQueue(comando, { durable: false });
   amqp_ch.sendToQueue(comando, msg);
   console.log(" [app] Sent %s", msg);
 }
 
-function receberDoServidor (id, callback) {
+function receberDoServidor(id, callback) {
 
-  amqp_ch.assertQueue("user_"+id, {durable: false});
+  amqp_ch.assertQueue("user_" + id, { durable: false });
 
-  console.log(" [app] Waiting messages for "+ id);
-  
-  amqp_ch.consume("user_"+id, function(msg) {
+  console.log(" [app] Waiting messages for " + id);
+
+  amqp_ch.consume("user_" + id, function (msg) {
 
     console.log(" [app] Received %s", msg.content.toString());
     callback(JSON.parse(msg.content.toString()));
 
-  }, {noAck: true});
+  }, { noAck: true });
 }
 
 // Realiza login gravando dados nos cookies
-app.post('/login', function (req, res) { 
+app.post('/login', function (req, res) {
 
   res.cookie('nick', req.body.nome);
   res.cookie('canal', req.body.canal);
@@ -62,35 +62,38 @@ app.post('/login', function (req, res) {
 // Faz o registro de conexão com o servidor IRC
 app.get('/', function (req, res) {
 
-  if ( req.cookies.servidor && req.cookies.nick  && req.cookies.canal ) {
+  if (req.cookies.servidor && req.cookies.nick && req.cookies.canal) {
 
     id_gen++; // Cria um ID para o usuário
     id = id_gen;
 
     // Cria um cache de mensagens
-    users[id] = {cache: [{
-      "timestamp": Date.now(), 
-      "nick": "IRC Server",
-      "msg": "Bem vindo ao servidor IRC"}]}; 
+    users[id] = {
+      cache: [{
+        "timestamp": Date.now(),
+        "nick": "IRC Server",
+        "msg": "Bem vindo ao servidor IRC"
+      }]
+    };
 
     res.cookie('id', id); // Seta o ID nos cookies do cliente
 
     var target = 'registro_conexao';
     var msg = {
-      id: id, 
+      id: id,
       servidor: req.cookies.servidor,
-      nick: req.cookies.nick, 
+      nick: req.cookies.nick,
       canal: req.cookies.canal
     };
 
-    users[id].id       = id;
+    users[id].id = id;
     users[id].servidor = msg.servidor;
-    users[id].nick     = msg.nick;
-    users[id].canal    = msg.canal;
+    users[id].nick = msg.nick;
+    users[id].canal = msg.canal;
 
     // Envia registro de conexão para o servidor
     enviarParaServidor(target, msg);
-    
+
     // Se inscreve para receber mensagens endereçadas a este usuário
     receberDoServidor(id, function (msg) {
 
@@ -108,7 +111,7 @@ app.get('/', function (req, res) {
 
 // Obtém mensagens armazenadas em cache (via polling)
 app.get('/obter_mensagem/:timestamp', function (req, res) {
-  
+
   var id = req.cookies.id;
   var response = users[id].cache;
   users.cache = [];
@@ -122,16 +125,16 @@ app.post('/gravar_mensagem', function (req, res) {
 
   // Adiciona mensagem enviada ao cache do usuário
   users[req.cookies.id].cache.push(req.body);
-  
+
   enviarParaServidor("gravar_mensagem", {
-    canal: users[req.cookies.id].canal, 
+    canal: users[req.cookies.id].canal,
     msg: req.body.msg
   });
-  
+
   res.end();
 });
 
 app.listen(3000, function () {
 
-  console.log('Example app listening on port 3000!');	
+  console.log('Example app listening on port 3000!');
 });
