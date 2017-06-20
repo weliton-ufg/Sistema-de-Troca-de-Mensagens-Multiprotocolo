@@ -8,8 +8,6 @@
 
 * **Weliton Marcos** - Líder/Desenvolvedor :crown: :computer:
 
-* **Gilmar Bernades** - Desenvolvedor :computer:
-
 * **Yan Rocha** - Documentador :writing_hand:
 
 # Documentação na Wiki
@@ -32,4 +30,4 @@ A nomenclatura das Changelogs ficaram definidas como *número.release.build*.
 [***Version 1.1.0***](https://gitlab.com/ad-si-2017-1/p3-g4/tags/version_v1.1.0)
 
 * Modificação e Inclusão em ***app.js*** e ***irc-proxy***.
-* Atualização da Documentação.
+* Finalização da Documentação.
