@@ -70,7 +70,7 @@ function inicializar() {
 		irc_client.addListener('names', function (message) {
 			enviarParaCliente(id, {
 				"timestamp": Date.now(),
-				"msg": JSON.stringify(nicks)
+				"msg": JSON.stringify(message)
 			});
 		});
 
@@ -82,6 +82,13 @@ function inicializar() {
 			});
 		});
 
+		irc_client.addListener('nick', function (oldnick, newnick, channels, message) {
+			//console.log("nick message= "+message +"text="+text);
+			enviarParaCliente(id, {
+				"timestamp": Date.now(),
+				"msg": "  "+oldnick+" agora é conhecido como "+newnick
+			});
+		});
 
 		proxies[id] = irc_client;
 	});
