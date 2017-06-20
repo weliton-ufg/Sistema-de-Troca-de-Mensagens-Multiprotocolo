@@ -31,3 +31,4 @@ A nomenclatura das Changelogs ficaram definidas como *número.release.build*.
 
 * Modificação e Inclusão em ***app.js*** e ***irc-proxy***.
 * Finalização da Documentação.
+
